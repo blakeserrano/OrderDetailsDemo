@@ -99,8 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\HomeControllerTest.cs" />
-    <Compile Include="Controllers\ValuesControllerTest.cs" />
+    <Compile Include="Controllers\OrderControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -109,6 +108,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OrderDetailsDemo.Model\OrderDetailsDemo.Model.csproj">
+      <Project>{1b9084eb-8e93-42a8-b507-036cff386fba}</Project>
+      <Name>OrderDetailsDemo.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OrderDetailsDemo\OrderDetailsDemo.csproj">
       <Project>{9E185031-7117-4BA1-97B6-44FE70A1B0E9}</Project>
       <Name>OrderDetailsDemo</Name>
