@@ -10,6 +10,16 @@ namespace OrderDetailsDemo.BL
 {
     public static class OrderManager
     {
+        public static double CalculateTotal(List<Item> prices)
+        {
+            double totalPrice = 0.00;
+            foreach (var i in prices)
+            {
+                totalPrice += i.quantity * i.price;
+            }
+            return totalPrice;
+        }
+
         public static bool CreateOrder(List<Order> order)
         {
             return OrderDAL.CreateOrder(order);

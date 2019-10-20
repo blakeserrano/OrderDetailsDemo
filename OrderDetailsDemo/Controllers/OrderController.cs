@@ -3,6 +3,7 @@ using OrderDetailsDemo.BL;
 using OrderDetailsDemo.Model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -15,15 +16,7 @@ namespace OrderDetailsDemo.Controllers
 {
     public class OrderController : ApiController
     {
-        public double CalculateTotal(List<Item> prices)
-        {
-            double totalPrice = 0.00;
-            foreach(var i in prices)
-            {
-                totalPrice += i.quantity * i.price;
-            }
-            return totalPrice;
-        }
+        private static string awsUrl = ConfigurationManager.AppSettings["AwsUrl"];
 
         [HttpGet]
         public IHttpActionResult Get(Guid id)
@@ -31,29 +24,35 @@ namespace OrderDetailsDemo.Controllers
             try
             {
                 OrderViewModel model = OrderManager.GetOrder(id);
-                model.totalCost = CalculateTotal(model.items);
+                model.totalCost = OrderManager.CalculateTotal(model.items);
                 return Ok(model);
             }
             catch (Exception ex)
             {
                 return this.NotFound(ex.Message);
             }
-           
+
         }
 
         [HttpPost]
         public IHttpActionResult Post(OrderViewModel order)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = string.Join(" | ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+
+                return BadRequest("Your order was not able to be placed because the following parameters require a value " + String.Join(",", errors));
+            }
             List<string> badProducts = new List<string>();
             List<Order> allItems = new List<Order>();
-            Guid OrderNumber = Guid.NewGuid();           
+            Guid OrderNumber = Guid.NewGuid();
 
             foreach (var o in order.items)
-            {             
+            {
 
                 using (var client = new System.Net.Http.HttpClient())
                 {
-                    HttpResponseMessage response = client.GetAsync("https://vrwiht4anb.execute-api.us-east-1.amazonaws.com/default/product/" + o.productId).Result;
+                    HttpResponseMessage response = client.GetAsync(awsUrl + o.productId).Result;
                     response.EnsureSuccessStatusCode();
                     string result = response.Content.ReadAsStringAsync().Result;
                     var apiResult = new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<APIResult>(result);

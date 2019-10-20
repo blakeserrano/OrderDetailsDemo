@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OrderDetailsDemo;
+using OrderDetailsDemo.BL;
 using OrderDetailsDemo.Controllers;
 using OrderDetailsDemo.Model;
 
@@ -18,7 +19,7 @@ namespace OrderDetailsDemo.Tests.Controllers
             items.Add(new Item { price = 14.99, quantity = 3 });
             items.Add(new Item { price = 4.99, quantity = 2 });
             OrderController controller = new OrderController();
-            double result = controller.CalculateTotal(items);
+            double result = OrderManager.CalculateTotal(items);
             Assert.IsNotNull(result);
             Assert.AreEqual(61.94, result);
         }

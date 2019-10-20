@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +33,9 @@ namespace OrderDetailsDemo.Model
 
     public class OrderViewModel
     {
+        [Required(ErrorMessage = "Customer Id is required.")]
         public string customerId { get; set; }
+        [Required(ErrorMessage = "Items are required.")]
         public List<Item> items = new List<Item>();
         public double totalCost { get; set; }
     }

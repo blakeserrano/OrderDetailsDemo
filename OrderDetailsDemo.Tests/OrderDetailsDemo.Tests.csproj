@@ -108,6 +108,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OrderDetailsDemo.BL\OrderDetailsDemo.BL.csproj">
+      <Project>{34A02376-CDB0-4EEB-B23A-C7B0A9117187}</Project>
+      <Name>OrderDetailsDemo.BL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OrderDetailsDemo.Model\OrderDetailsDemo.Model.csproj">
       <Project>{1b9084eb-8e93-42a8-b507-036cff386fba}</Project>
       <Name>OrderDetailsDemo.Model</Name>
